@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Death Benefit Claim Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Professional death benefit claim portal for beneficiary intake and supporting documentation." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="page-header">
+  <div class="brand-header">
+    <img class="brand-logo" src="./western-southern-logo.png" alt="Western &amp; Southern logo" />
+    <span class="brand-name">Western &amp; Southern Financial Group</span>
+  </div>
+</div>
+<div class="shell">
+  <header class="hero">
+    <div class="hero__content">
+      <div class="eyebrow">Death Benefit Services</div>
+      <h1>Death Benefit Claim Dashboard</h1>
+      <p>
+        Securely provide claimant details, payment preferences, and required supporting
+        documentation to help us review and release the benefit efficiently.
+      </p>
+      <div class="hero__actions">
+        <a href="#claim-form" class="button button--primary">Start claim</a>
+        <a href="#documents" class="button button--secondary">View requirements</a>
+      </div>
+    </div>
+    <aside class="hero__summary" aria-label="Benefit summary">
+      <span class="summary__label">Claim overview</span>
+      <h2>Barbara Ford</h2>
+      <dl>
+        <div>
+          <dt>Total benefit value</dt>
+          <dd>$200,120.00</dd>
+        </div>
+        <div>
+          <dt>Listed beneficiary</dt>
+          <dd>Sherri Ford</dd>
+        </div>
+        <div>
+          <dt>Relationship on record</dt>
+          <dd>Daughter / Next of kin</dd>
+        </div>
+        <div>
+              <dt>Contract number</dt>
+              <dd>W0000434211</dd>
+        </div>
+      </dl>
+    </aside>
+  </header>
+  <main class="layout">
+    <section class="panel panel--highlight">
+      <div class="panel__header">
+        <div>
+          <p class="section-kicker">What happens next</p>
+          <h2>Complete the form and upload documents</h2>
+        </div>
+        <span class="badge">Estimated review: 5–7 business days</span>
+      </div>
+      <div class="steps" aria-label="Claim steps">
+        <article class="step-card">
+          <span>1</span>
+          <h3>Confirm claimant identity</h3>
+          <p>Provide contact details that match your government-issued identification.</p>
+        </article>
+        <article class="step-card">
+          <span>2</span>
+          <h3>Choose payment preference</h3>
+          <p>Select check or direct deposit and provide any required payment details.</p>
+        </article>
+        <article class="step-card">
+          <span>3</span>
+          <h3>Submit required documents</h3>
+          <p>Upload a certified death certificate and your supporting claimant documents.</p>
+        </article>
+      </div>
+    </section>
+    <div class="content-grid">
+      <section class="panel form-panel" id="claim-form">
+        <div class="panel__header panel__header--stacked">
+          <div>
+            <p class="section-kicker">Claimant intake</p>
+            <h2>Beneficiary claim form</h2>
+          </div>
+          <p class="muted">
+            Fields marked with * are required for review.
+          </p>
+        </div>
+        <form id="benefit-claim-form" novalidate>
+          <fieldset>
+            <legend>Deceased account holder</legend>
+            <div id="bank-account-fields" class="form-grid form-grid--two">
+              <label>
+                <span>Insured/Annuitant first name</span>
+                <input type="text" value="Barbara" readonly />
+              </label>
+              <label>
+                <span>Insured/Annuitant last name</span>
+                <input type="text" value="Ford" readonly />
+              </label>
+              <label>
+                <span>Benefit value</span>
+                <input type="text" value="$200,120.00" readonly />
+              </label>
+              <label>
+                <span>Beneficiary on file</span>
+                <input type="text" value="Sherri Ford" readonly />
+              </label>
+              <label>
+                    <span>Contract number</span>
+                    <input type="text" value="W0000434211" readonly />
+              </label>
+              <label>
+                <span>Manner of death</span>
+                <select name="mannerOfDeath">
+                  <option value="">Select manner of death</option>
+                  <option>Natural causes</option>
+                  <option>Accident</option>
+                  <option>Homicide</option>
+                  <option>Suicide</option>
+                  <option>Undetermined</option>
+                  <option>Pending investigation</option>
+                </select>
+              </label>
+              <label>
+                <span>Age at death</span>
+                <input type="number" name="ageAtDeath" min="0" max="130" placeholder="e.g. 72" />
+              </label>
+              <label>
+                <span>Marital status</span>
+                <select name="maritalStatus">
+                  <option value="">Select marital status</option>
+                  <option>Single</option>
+                  <option>Married</option>
+                  <option>Widowed</option>
+                  <option>Divorced</option>
+                  <option>Separated</option>
+                </select>
+              </label>
+            </div>
+            <div style="margin-top: 16px;">
+              <label style="display:block; margin-bottom: 8px;"><span>Tax handling preference *</span></label>
+              <div class="choice-row">
+                <label class="choice-card">
+                  <input type="radio" name="taxDeductionPreference" value="Deduct tax from benefit" checked />
+                  <span>Deduct tax from benefit</span>
+                  <small>Tax is applied during processing.</small>
+                </label>
+                <label class="choice-card">
+                  <input type="radio" name="taxDeductionPreference" value="Do not deduct tax" />
+                  <span>Do not deduct tax</span>
+                  <small>Tax will be paid after cash delivery.</small>
+                </label>
+              </div>
+              <p id="post-delivery-tax-note" style="display:none; margin: 10px 0 0; color:#8b0000; font-weight:700;">Tax must be paid after cash delivery before claim closure.</p>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Claimant information</legend>
+            <div class="form-grid form-grid--two">
+              <label>
+                <span>Legal name *</span>
+                <input type="text" name="claimantName" placeholder="Sherri Ford" required />
+              </label>
+              <label>
+                <span>Relationship to deceased *</span>
+                <select name="relationship" required>
+                  <option value="">Select relationship</option>
+                  <option selected>Daughter</option>
+                  <option>Spouse</option>
+                  <option>Sibling</option>
+                  <option>Parent</option>
+                  <option>Executor / Estate representative</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                <span>Email address *</span>
+                <input type="email" name="email" placeholder="name@example.com" required />
+              </label>
+              <label>
+                <span>Mobile phone *</span>
+                <input type="tel" name="phone" placeholder="(555) 555-5555" required />
+              </label>
+              <label>
+                <span>Date of birth *</span>
+                <input type="date" name="dob" required />
+              </label>
+              <label>
+                <span>Tax ID / SSN (last 4) *</span>
+                <input type="text" name="taxId" inputmode="numeric" maxlength="4" placeholder="1234" required />
+              </label>
+            </div>
+            <label>
+              <span>Home address *</span>
+              <input type="text" name="address" placeholder="Street address" required />
+            </label>
+            <div class="form-grid form-grid--three">
+              <label>
+                <span>City *</span>
+                <input type="text" name="city" required />
+              </label>
+              <label>
+                <span>State *</span>
+                <input type="text" name="state" required />
+              </label>
+              <label>
+                <span>ZIP code *</span>
+                <input type="text" name="zipCode" inputmode="numeric" required />
+              </label>
+            </div>
+          </fieldset>
+          <fieldset id="payment-method-fieldset">
+            <legend>Benefit payment preference</legend>
+            <input type="hidden" name="paymentMethod" value="Cash mailing" />
+            <p style="margin: 8px 0 0; color: #133b6b; font-weight: 600;">Payment method: Cash mailing</p>
+            <p style="margin: 6px 0 0; color: #6d7481;">Please provide the delivery address for cash mailing.</p>
+            <div id="cash-mailing-fields" class="form-grid form-grid--two">
+              <label>
+                <span>Mailing street address *</span>
+                <textarea name="checkMailAddress" rows="2" required placeholder="Street address for cash delivery"></textarea>
+              </label>
+              <label>
+                <span>City *</span>
+                <input type="text" name="checkMailCity" required placeholder="City" />
+              </label>
+              <label>
+                <span>State *</span>
+                <input type="text" name="checkMailState" required placeholder="State" />
+              </label>
+              <label>
+                <span>ZIP code *</span>
+                <input type="text" name="checkMailZip" inputmode="numeric" required placeholder="ZIP code" />
+              </label>
+            </div>
+          </fieldset>
+          <fieldset id="documents">
+            <legend>Required documentation</legend>
+            <div class="checklist-grid">
+              <label class="check-item">
+                <input type="checkbox" name="deathCertificate" required />
+                <div>
+                  <strong>Certified death certificate *</strong>
+                  <p>Issued by the appropriate state or county office.</p>
+                </div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" name="governmentId" required />
+                <div>
+                  <strong>Government-issued photo ID *</strong>
+                  <p>Driver’s license, state ID, or passport.</p>
+                </div>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" name="estateDocs" />
+                <div>
+                  <strong>Estate or court documents</strong>
+                  <p>Only if you are filing as executor or estate representative.</p>
+                </div>
+              </label>
+            </div>
+            <label class="upload-box" for="supportingFiles">
+              <span>Upload supporting files</span>
+              <small>Accepted formats: PDF, JPG, PNG. Up to 10 files.</small>
+              <input id="supportingFiles" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" />
+            </label>
+            <div id="file-list" class="file-list" aria-live="polite"></div>
+          </fieldset>
+          <fieldset>
+            <legend>Claim declaration</legend>
+            <label>
+              <span>Additional notes</span>
+              <textarea name="notes" rows="4" placeholder="Share any details that may help our claim review team."></textarea>
+            </label>
+            <label class="consent">
+              <input type="checkbox" name="attestation" required />
+              <span>
+                I certify that the information provided is accurate to the best of my knowledge and
+                that I am authorized to submit this claim.
+              </span>
+            </label>
+          </fieldset>
+          <div class="form-actions">
+            <button type="submit" class="button button--primary">Submit claim request</button>
+            <button type="reset" class="button button--ghost">Reset form</button>
+          </div>
+          <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <aside class="sidebar">
+        <section class="panel sidebar-card">
+          <p class="section-kicker">Claim support</p>
+          <h3>Need help completing this form?</h3>
+          <p>
+            Our benefits team can help clarify documentation requirements, payment options,
+            and signature steps before final submission.
+          </p>
+          <ul class="contact-list">
+            <li><strong>Phone:</strong> (800) 555-0148</li>
+            <li><strong>Email:</strong> digitalclaimsupport@pobox.com</li>
+            <li><strong>Hours:</strong> Mon–Fri, 8:00 AM–6:00 PM ET</li>
+          </ul>
+        </section>
+        <section class="panel sidebar-card sidebar-card--dark">
+          <p class="section-kicker">Security</p>
+          <h3>Your information stays protected</h3>
+          <p>
+            Use this page to submit claim details securely. For production, connect this form to
+            your document storage, case workflow, and identity verification systems.
+          </p>
+        </section>
+        <section class="panel sidebar-card">
+          <p class="section-kicker">Review checklist</p>
+          <ul class="timeline">
+            <li>Verify claimant contact details</li>
+            <li>Confirm payment instructions</li>
+            <li>Attach required supporting documents</li>
+            <li>Submit for benefit review</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+</div>
+<div class="page-footer">
+  Western &amp; Southern Financial Group. All Rights Reserved.<br />
+  FireLight&reg; by Hexure
+</div>
+<script src="./script.js?v=20260322b"></script>
+</body>
+</html>

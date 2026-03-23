@@ -1,0 +1,23 @@
+Subject: Important Notification: Please Claim Your Death Benefit Contract
+
+Dear Sherri Ford,
+
+We are reaching out to notify you that you have been identified as the beneficiary for a death benefit contract with Western & Southern Financial Group.
+
+
+Contract Number: W0000434211
+Deceased: Barbara Ford
+
+To claim your benefit, please visit our secure claim portal and complete the required information and documentation:
+
+Claim Portal: http://127.0.0.1:5500/
+
+You will need your unique passcode to access the portal. If you have not received your passcode, please contact your advisor or our support team.
+
+If you have any questions or need assistance, our benefits team is available at (800) 555-0148 or claims@benefitserviceportal.com.
+
+Thank you,
+Western & Southern Financial Group
+
+---
+This is an automated notification. Please do not reply to this email.

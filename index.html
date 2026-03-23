@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Western & Southern Financial Group</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(#3b6aa5, #cfd6df);
+    height: 100vh;
+  }
+
+  .header {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+  }
+
+  .logo {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+  }
+
+  .container {
+    width: 420px;
+    margin: 80px auto;
+    background: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    overflow: hidden;
+  }
+
+  .container-header {
+    background: #8b0000;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  .container-body {
+    padding: 30px;
+    text-align: center;
+    color: #333;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+
+  label {
+    margin-right: 10px;
+    font-size: 14px;
+  }
+
+  input {
+    padding: 6px;
+    width: 180px;
+    border: 1px solid #999;
+    border-radius: 3px;
+  }
+
+  .btn {
+    background: #444;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .btn:hover {
+    background: #222;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .btn--secondary {
+    background: transparent;
+    color: #444;
+    border: 1px solid #777;
+  }
+
+  .btn--secondary:hover {
+    background: #f0f0f0;
+  }
+
+  .message {
+    margin-top: 15px;
+    font-size: 13px;
+  }
+
+  .error {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #8b0000;
+    font-weight: bold;
+    min-height: 16px;
+  }
+
+  .status {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #133b6b;
+    min-height: 14px;
+    font-weight: bold;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 12px;
+    color: #666;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img class="logo" src="./western-southern-logo.png" alt="Western & Southern logo">
+  <span>Western & Southern Financial Group</span>
+</div>
+
+<div class="container">
+  <div class="container-header">
+    Welcome
+  </div>
+  <div class="container-body">
+    <div class="input-group">
+      <label>Passcode:</label>
+      <input id="passcode-input" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="8" minlength="8" pattern="[0-9]{8}" title="Passcode must be exactly 8 digits">
+    </div>
+
+    <div class="actions">
+      <button class="btn" id="enter-btn">Enter</button>
+      <button class="btn btn--secondary" id="resend-btn" type="button">Resend Passcode</button>
+    </div>
+
+    <div class="error" id="passcode-error"></div>
+    <div class="status" id="resend-status"></div>
+
+    <div class="message">
+      <p>Passcode sent successfully!</p>
+      <p>Please return to your email for Passcode or contact your advisor.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  Western & Southern Financial Group. All Rights Reserved.<br>
+  FireLight® by Hexure
+</div>
+
+<script>
+  (function () {
+    var PASSCODE = "51699238";
+    var passcodeInput = document.getElementById("passcode-input");
+    var enterButton = document.getElementById("enter-btn");
+    var resendButton = document.getElementById("resend-btn");
+    var errorElement = document.getElementById("passcode-error");
+    var resendStatus = document.getElementById("resend-status");
+    var redirectPending = false;
+
+    function submitPasscode() {
+      if (redirectPending) {
+        return;
+      }
+
+      var value = passcodeInput.value.trim();
+
+      if (!/^\d{8}$/.test(value)) {
+        errorElement.style.color = "#8b0000";
+        errorElement.textContent = "Passcode must be exactly 8 digits.";
+        return;
+      }
+
+      if (value === PASSCODE) {
+        redirectPending = true;
+        passcodeInput.disabled = true;
+        enterButton.disabled = true;
+        resendButton.disabled = true;
+        errorElement.textContent = "";
+        resendStatus.textContent = "";
+        setTimeout(function () {
+          window.location.href = "portal.html";
+        }, 1000);
+        return;
+      }
+
+      errorElement.style.color = "#8b0000";
+      errorElement.textContent = "Invalid passcode. Please try again.";
+    }
+
+    enterButton.addEventListener("click", submitPasscode);
+
+    resendButton.addEventListener("click", function () {
+      if (redirectPending) {
+        return;
+      }
+      resendStatus.textContent = "Passcode resent successfully.";
+      setTimeout(function () {
+        resendStatus.textContent = "";
+      }, 2500);
+    });
+
+    passcodeInput.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        submitPasscode();
+      }
+    });
+
+    passcodeInput.addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, "").slice(0, 8);
+    });
+  })();
+</script>
+
+</body>
+</html>
+<!-- End of login page. -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Death Benefit Claim Portal</title>
+    <meta
+      name="description"
+      content="Professional death benefit claim portal for beneficiary intake and supporting documentation."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+<!-- Only the login page should be here. -->

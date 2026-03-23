@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review &amp; Sign — Death Benefit Claim</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      /* ── Page-specific styles ───────────────────────────── */
+      .rv-page-subheader {
+        background: #8b0000;
+        color: #fff;
+        text-align: center;
+        padding: 13px 20px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .rv-top-bar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 22px 0 4px;
+        margin-bottom: 24px;
+      }
+
+      .rv-top-bar h1 {
+        margin: 0 0 6px;
+        font-size: 1.5rem;
+        color: #fff;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+      }
+
+      .rv-top-bar p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.82);
+        line-height: 1.55;
+      }
+
+      .rv-ref-pill {
+        background: rgba(255,255,255,0.18);
+        color: #fff;
+        border-radius: 999px;
+        padding: 9px 18px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        white-space: nowrap;
+        border: 1px solid rgba(255,255,255,0.3);
+        flex-shrink: 0;
+      }
+
+      /* ── Read-only data cards ─────────────────────────────── */
+      .rv-card {
+        background: #f3f5f8;
+        border-radius: 14px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.16);
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+
+      .rv-card-header {
+        background: #8b0000;
+        color: #fff;
+        padding: 11px 22px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .rv-table { display: grid; }
+
+      .rv-tr {
+        display: grid;
+        grid-template-columns: minmax(195px, 0.75fr) 1fr;
+        border-bottom: 1px solid rgba(0,0,0,0.06);
+      }
+      .rv-tr:last-child { border-bottom: none; }
+      .rv-tr:nth-child(even) { background: rgba(0,0,0,0.025); }
+
+      .rv-td {
+        padding: 11px 22px;
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+      .rv-td:first-child {
+        font-weight: 700;
+        color: #5b6b82;
+        text-transform: uppercase;
+        font-size: 0.77rem;
+        letter-spacing: 0.06em;
+        border-right: 1px solid rgba(0,0,0,0.06);
+      }
+      .rv-td:last-child {
+        font-weight: 600;
+        color: #0f1c2e;
+      }
+
+      /* ── Signature card ────────────────────────────────────── */
+      .rv-sign-card {
+        background: #f3f5f8;
+        border-radius: 14px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.16);
+        overflow: hidden;
+        margin-bottom: 26px;
+      }
+
+      .rv-sign-header {
+        background: #133b6b;
+        color: #fff;
+        padding: 13px 22px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .rv-sign-body {
+        padding: 26px 28px;
+      }
+
+      .rv-declaration {
+        font-size: 0.94rem;
+        line-height: 1.75;
+        color: #333;
+        background: rgba(139,0,0,0.05);
+        border-left: 4px solid #8b0000;
+        border-radius: 0 8px 8px 0;
+        padding: 14px 18px;
+        margin: 0 0 24px;
+      }
+
+      .rv-checks {
+        display: grid;
+        gap: 13px;
+        margin-bottom: 26px;
+      }
+
+      .rv-check-row {
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 12px;
+        align-items: start;
+        font-size: 0.93rem;
+        color: #0f1c2e;
+        cursor: pointer;
+        font-weight: 500;
+        line-height: 1.5;
+      }
+
+      .rv-check-row input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+        accent-color: #8b0000;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .rv-sig-fields {
+        display: grid;
+        grid-template-columns: 1fr 210px;
+        gap: 18px;
+        margin-bottom: 6px;
+      }
+
+      .rv-sig-group {
+        display: grid;
+        gap: 7px;
+      }
+
+      .rv-sig-label {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #0f1c2e;
+        letter-spacing: 0.02em;
+      }
+
+      .rv-sig-input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 13px 15px;
+        border: 1.5px solid #bfc8d2;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 0.97rem;
+        background: #fff;
+        color: #0f1c2e;
+        transition: border-color 160ms, box-shadow 160ms;
+      }
+
+      .rv-sig-input:focus {
+        outline: none;
+        border-color: #8b0000;
+        box-shadow: 0 0 0 3px rgba(139,0,0,0.1);
+      }
+
+      .rv-sign-error {
+        margin-top: 10px;
+        min-height: 22px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #b42318;
+      }
+
+      .rv-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: flex-end;
+        padding: 18px 28px;
+        background: #e8ecf1;
+        border-top: 1px solid #bfc8d2;
+        flex-wrap: wrap;
+      }
+
+      /* ── Confirmation overlay ──────────────────────────────── */
+      .conf-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10,20,40,0.72);
+        display: grid;
+        place-items: center;
+        z-index: 9999;
+        padding: 20px;
+      }
+      .conf-overlay[hidden] { display: none; }
+
+      .conf-box {
+        background: #f3f5f8;
+        border-radius: 18px;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.35);
+        max-width: 540px;
+        width: 100%;
+        overflow: hidden;
+        animation: popIn 0.2s ease;
+      }
+      @keyframes popIn {
+        from { transform: scale(0.9); opacity: 0; }
+        to   { transform: scale(1);   opacity: 1; }
+      }
+
+      .conf-box-top {
+        background: #8b0000;
+        color: #fff;
+        text-align: center;
+        padding: 13px 22px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .conf-box-body {
+        padding: 30px 34px 32px;
+        text-align: center;
+      }
+
+      .conf-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(160deg, #8b0000, #6d0000);
+        color: #fff;
+        font-size: 1.7rem;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 16px;
+      }
+
+      .conf-box-body h2 {
+        margin: 0 0 10px;
+        font-size: 1.3rem;
+        color: #0f1c2e;
+      }
+
+      .conf-box-body > p {
+        margin: 0 0 20px;
+        color: #5b6b82;
+        font-size: 0.95rem;
+        line-height: 1.65;
+      }
+
+      .conf-receipt {
+        display: grid;
+        gap: 8px;
+        text-align: left;
+        background: #e9edf2;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 18px;
+      }
+
+      .conf-receipt-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+
+      .conf-receipt-row dt {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #5b6b82;
+      }
+
+      .conf-receipt-row dd {
+        margin: 0;
+        font-weight: 700;
+        color: #0f1c2e;
+        font-size: 0.9rem;
+      }
+
+      .conf-note {
+        font-size: 0.83rem;
+        color: #5b6b82;
+        line-height: 1.65;
+        margin: 0;
+      }
+
+      @media (max-width: 640px) {
+        .rv-tr,
+        .rv-sig-fields { grid-template-columns: 1fr; }
+        .rv-td:first-child { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .rv-actions { flex-direction: column-reverse; }
+        .conf-receipt-row { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="page-header">
+      <div class="brand-header">
+        <img class="brand-logo" src="./western-southern-logo.png" alt="Western &amp; Southern logo" />
+        <span class="brand-name">Western &amp; Southern Financial Group</span>
+      </div>
+    </div>
+    <div class="rv-page-subheader">Death Benefit Claim &mdash; Review &amp; Signature</div>
+
+    <div class="shell">
+
+      <!-- Page title -->
+      <div class="rv-top-bar">
+        <div>
+          <h1>Review Your Submitted Information</h1>
+          <p>
+            Please read all information below carefully.<br />
+            If anything is incorrect, click <em>Go back &amp; edit</em> before signing.
+          </p>
+        </div>
+        <span class="rv-ref-pill">Contract&nbsp;&nbsp;W0000434211</span>
+      </div>
+
+      <!-- Injected read-only sections -->
+
+      <div id="review-output"></div>
+
+      <!-- Signature & certification block -->
+      <div class="rv-sign-card" id="sign-block">
+        <div class="rv-sign-header">&#9998;&nbsp; Claimant Signature &amp; Certification</div>
+        <div class="rv-sign-body">
+
+          <p class="rv-declaration">
+            I, <strong id="cert-name-inline">the claimant</strong>, certify that all information
+            submitted in this death benefit claim is true, accurate, and complete to the best of
+            my knowledge. I understand that providing false or misleading information may result
+            in denial of this claim and possible legal consequences. I authorize
+            <strong>Western &amp; Southern Financial Group</strong> to release the benefit of
+            <strong>$200,120.00</strong> for the estate of <strong>Barbara Ford</strong> to me as
+            the designated beneficiary of record.
+          </p>
+
+          <div class="rv-checks">
+            <label class="rv-check-row">
+              <input type="checkbox" id="chk1" />
+              <span>I have read and reviewed all of the information above and confirm it is accurate and complete.</span>
+            </label>
+            <label class="rv-check-row">
+              <input type="checkbox" id="chk2" />
+              <span>I am the designated beneficiary of Barbara Ford and am legally entitled to receive this benefit.</span>
+            </label>
+            <label class="rv-check-row">
+              <input type="checkbox" id="chk3" />
+              <span>I authorize release of the payment via my selected payment method as shown above.</span>
+            </label>
+          </div>
+
+          <div class="rv-sig-fields">
+            <div class="rv-sig-group">
+              <label class="rv-sig-label" for="sig-name">Type your full legal name (serves as your signature) *</label>
+              <input
+                class="rv-sig-input"
+                type="text"
+                id="sig-name"
+                placeholder="e.g. Sherri Ford"
+                autocomplete="name"
+              />
+            </div>
+            <div class="rv-sig-group">
+              <label class="rv-sig-label" for="sig-date">Today's date *</label>
+              <input class="rv-sig-input" type="date" id="sig-date" />
+            </div>
+          </div>
+
+          <p class="rv-sign-error" id="sign-error" role="alert"></p>
+        </div>
+
+        <div class="rv-actions">
+          <button class="button button--ghost" id="btn-back">&#8592; Go back &amp; edit</button>
+          <button class="button button--primary" id="btn-submit">Sign &amp; Submit Claim &#8594;</button>
+        </div>
+      </div>
+
+    </div><!-- /shell -->
+
+    <!-- Confirmation receipt overlay -->
+    <div class="conf-overlay" id="conf-overlay" hidden>
+      <div class="conf-box">
+        <div class="conf-box-top">Western &amp; Southern Financial Group &mdash; Claim Receipt</div>
+        <div class="conf-box-body">
+          <div class="conf-icon">&#10003;</div>
+          <h2>Claim Successfully Submitted</h2>
+          <p>
+            Thank you, <strong id="conf-claimant-name"></strong>. Your signed death benefit
+            claim has been received and is now under review by our benefits processing team.
+          </p>
+          <dl class="conf-receipt">
+            <div class="conf-receipt-row"><dt>Claimant</dt>          <dd id="conf-claimant"></dd></div>
+            <div class="conf-receipt-row"><dt>Deceased</dt>          <dd>Barbara Ford</dd></div>
+            <div class="conf-receipt-row"><dt>Contract number</dt>   <dd>W0000434211</dd></div>
+            <div class="conf-receipt-row"><dt>Benefit Amount</dt>    <dd>$200,120.00</dd></div>
+            <div class="conf-receipt-row"><dt>Payment Method</dt>    <dd id="conf-payment"></dd></div>
+            <div class="conf-receipt-row"><dt>Date Submitted</dt>    <dd id="conf-date"></dd></div>
+            <div class="conf-receipt-row"><dt>Est. Processing</dt>   <dd>5–7 business days</dd></div>
+          </dl>
+          <p class="conf-note">
+            A confirmation will be sent to the email address on file.
+            Please keep contract number <strong>W0000434211</strong> for your records.
+            Our team will contact you if any additional information is required.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      Western &amp; Southern Financial Group. All Rights Reserved.<br />
+      FireLight&reg; by Hexure
+    </div>
+
+    <script>
+      (function () {
+        "use strict";
+
+        // ── Helpers ─────────────────────────────────────────────────
+        const esc  = (s) => String(s ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+        const disp = (v) => (v && String(v).trim()) ? esc(v) : '<span style="color:#bbb;font-style:italic">Not provided</span>';
+        const today = new Date().toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" });
+
+        // Build a read-only card with a title and an array of [label, value] rows
+        function buildCard(title, rows) {
+          const body = rows
+            .filter(([, v]) => v !== undefined && v !== null && v !== "")
+            .map(([lbl, val]) =>
+              `<div class="rv-tr">
+                 <div class="rv-td">${esc(lbl)}</div>
+                 <div class="rv-td">${disp(val)}</div>
+               </div>`
+            ).join("");
+          return `
+            <div class="rv-card">
+              <div class="rv-card-header">${esc(title)}</div>
+              <div class="rv-table">${body}</div>
+            </div>`;
+        }
+
+        // ── Read sessionStorage payload ──────────────────────────────
+        const raw = sessionStorage.getItem("claimPayload");
+        const out = document.getElementById("review-output");
+
+        if (!raw) {
+          out.innerHTML =
+            `<div class="rv-card">
+               <div class="rv-card-header">No Claim Data Found</div>
+               <div class="rv-table">
+                 <div class="rv-tr">
+                   <div class="rv-td" style="grid-column:1/-1;padding:20px 22px;color:#666;">
+                     No submitted claim data was found in this session.
+                     <a href="index.html" style="color:#8b0000;font-weight:700;">&#8592; Return to the claim form</a>
+                   </div>
+                 </div>
+               </div>
+             </div>`;
+          document.getElementById("sign-block").hidden = true;
+          return;
+        }
+
+        const d = JSON.parse(raw);
+
+        // Pre-fill claimant name in the declaration paragraph
+        const claimantDisplay = d.claimantName || "the claimant";
+        document.getElementById("cert-name-inline").textContent = claimantDisplay;
+        document.getElementById("sig-name").placeholder = claimantDisplay;
+        document.getElementById("sig-date").valueAsDate  = new Date();
+
+        // Mask sensitive numeric strings
+        const mask = (v) => v && String(v).length >= 4
+          ? "••••" + String(v).slice(-4)
+          : (v || "");
+
+        // ── Render all sections ──────────────────────────────────────
+        out.innerHTML = [
+
+          buildCard("1. Deceased Account Holder", [
+            ["Insured/Annuitant first name", "Barbara"],
+            ["Insured/Annuitant last name", "Ford"],
+            ["Benefit Value",        "$200,120.00"],
+            ["Beneficiary on File",  "Sherri Ford"],
+            ["Contract number",      "W0000434211"],
+            ["Manner of Death",      d.mannerOfDeath],
+            ["Age at Death",         d.ageAtDeath ? d.ageAtDeath + " yrs" : ""],
+            ["Marital Status",       d.maritalStatus],
+          ]),
+
+          buildCard("2. Claimant Information", [
+            ["Legal Name",                d.claimantName],
+            ["Relationship to Deceased",  d.relationship],
+            ["Email Address",             d.email],
+            ["Mobile Phone",              d.phone],
+            ["Date of Birth",             d.dob],
+            ["SSN (last 4 digits)",        d.taxId],
+            ["Home Address",              d.address],
+            ["City",                      d.city],
+            ["State",                     d.state],
+            ["ZIP Code",                  d.zipCode],
+          ]),
+
+
+          buildCard("3. Benefit Payment Preference", [
+            ["Selected Method",  d.paymentMethod],
+            ["Cash Mailing Street Address", d.checkMailAddress],
+            ["Cash Mailing City", d.checkMailCity],
+            ["Cash Mailing State", d.checkMailState],
+            ["Cash Mailing ZIP Code", d.checkMailZip],
+          ]),
+
+
+          buildCard("4. Required Documentation", [
+            ["Certified Death Certificate",    d.deathCertificate === "Yes" ? "✔  Confirmed" : "Not confirmed"],
+            ["Government-Issued Photo ID",     d.governmentId     === "Yes" ? "✔  Confirmed" : "Not confirmed"],
+            ["Estate / Court Documents",       d.estateDocs       === "Yes" ? "✔  Provided"  : "Not provided"],
+            ["Files Attached",                 Array.isArray(d.uploadedFiles) && d.uploadedFiles.length
+                                                 ? d.uploadedFiles.join(", ") : "None"],
+          ]),
+
+          d.notes ? buildCard("5. Additional Notes", [
+            ["Notes / Comments", d.notes],
+          ]) : "",
+
+        ].join("");
+
+        // ── Button — Go back & edit ──────────────────────────────────
+        document.getElementById("btn-back").addEventListener("click", function () {
+          history.back();
+        });
+
+        // ── Button — Sign & Submit ────────────────────────────────────
+        document.getElementById("btn-submit").addEventListener("click", function () {
+          const errEl      = document.getElementById("sign-error");
+          const allChecked = ["chk1","chk2","chk3"].every(function (id) {
+            return document.getElementById(id).checked;
+          });
+          const sigName = document.getElementById("sig-name").value.trim();
+          const sigDate = document.getElementById("sig-date").value;
+
+          if (!allChecked) {
+            errEl.textContent = "Please tick all three checkboxes to confirm your agreement before signing.";
+            return;
+          }
+          if (!sigName) {
+            errEl.textContent = "Please type your full legal name to serve as your signature.";
+            return;
+          }
+          if (!sigDate) {
+            errEl.textContent = "Please enter today's date to complete the signature.";
+            return;
+          }
+          errEl.textContent = "";
+
+          // Populate confirmation receipt
+          document.getElementById("conf-claimant-name").textContent = sigName;
+          document.getElementById("conf-claimant").textContent      = d.claimantName || sigName;
+          document.getElementById("conf-payment").textContent       = d.paymentMethod || "—";
+          document.getElementById("conf-date").textContent          = today;
+
+          // Show confirmation and clear payload
+          document.getElementById("conf-overlay").hidden = false;
+          sessionStorage.removeItem("claimPayload");
+        });
+
+        // Tax fee logic removed
+      })();
+    </script>
+
+  </body>
+</html>
