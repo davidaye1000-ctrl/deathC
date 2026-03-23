@@ -377,7 +377,7 @@
             my knowledge. I understand that providing false or misleading information may result
             in denial of this claim and possible legal consequences. I authorize
             <strong>Western &amp; Southern Financial Group</strong> to release the benefit of
-            <strong>$200,120.00</strong> for the estate of <strong>Barbara Ford</strong> to me as
+            <strong>$200,120.00</strong> for the estate of <strong>Margaret Caulkins</strong> to me as
             the designated beneficiary of record.
           </p>
 
@@ -388,7 +388,7 @@
             </label>
             <label class="rv-check-row">
               <input type="checkbox" id="chk2" />
-              <span>I am the designated beneficiary of Barbara Ford and am legally entitled to receive this benefit.</span>
+              <span>I am the designated beneficiary of Margaret Caulkins and am legally entitled to receive this benefit.</span>
             </label>
             <label class="rv-check-row">
               <input type="checkbox" id="chk3" />
@@ -403,7 +403,7 @@
                 class="rv-sig-input"
                 type="text"
                 id="sig-name"
-                placeholder="e.g. Sherri Ford"
+                placeholder="e.g. Linda Richter"
                 autocomplete="name"
               />
             </div>
@@ -437,7 +437,7 @@
           </p>
           <dl class="conf-receipt">
             <div class="conf-receipt-row"><dt>Claimant</dt>          <dd id="conf-claimant"></dd></div>
-            <div class="conf-receipt-row"><dt>Deceased</dt>          <dd>Barbara Ford</dd></div>
+            <div class="conf-receipt-row"><dt>Deceased</dt>          <dd>Margaret Caulkins</dd></div>
             <div class="conf-receipt-row"><dt>Contract number</dt>   <dd>W0000434211</dd></div>
             <div class="conf-receipt-row"><dt>Benefit Amount</dt>    <dd>$200,120.00</dd></div>
             <div class="conf-receipt-row"><dt>Payment Method</dt>    <dd id="conf-payment"></dd></div>
@@ -449,6 +449,9 @@
             Please keep contract number <strong>W0000434211</strong> for your records.
             Our team will contact you if any additional information is required.
           </p>
+          <div style="text-align:center; margin-top: 28px;">
+            <button id="btn-dashboard" class="button button--primary" style="min-width:220px;font-size:1.08rem;">Return to dashboard</button>
+          </div>
         </div>
       </div>
     </div>
@@ -522,10 +525,10 @@
         out.innerHTML = [
 
           buildCard("1. Deceased Account Holder", [
-            ["Insured/Annuitant first name", "Barbara"],
-            ["Insured/Annuitant last name", "Ford"],
+            ["Insured/Annuitant first name", "Margaret"],
+            ["Insured/Annuitant last name", "Caulkins"],
             ["Benefit Value",        "$200,120.00"],
-            ["Beneficiary on File",  "Sherri Ford"],
+            ["Beneficiary on File",  "Linda Richter"],
             ["Contract number",      "W0000434211"],
             ["Manner of Death",      d.mannerOfDeath],
             ["Age at Death",         d.ageAtDeath ? d.ageAtDeath + " yrs" : ""],
@@ -609,6 +612,10 @@
         });
 
         // Tax fee logic removed
+        // Add event listener for Return to dashboard button
+        document.getElementById("btn-dashboard").addEventListener("click", function () {
+          window.location.href = "claimant-testimonials.html";
+        });
       })();
     </script>
 

