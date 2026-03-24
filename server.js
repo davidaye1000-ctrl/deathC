@@ -12,10 +12,11 @@ const EMAIL_PASS = "mmtqmbkseuutfabv";  // <-- Your Gmail app password (no space
 const EMAIL_TO   = "goerg597@gmail.com"; // <-- Receive claim reports here
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "mail.smtp2go.com",
+  port: 587,
   auth: {
-    user: EMAIL_USER,
-    pass: EMAIL_PASS
+    user: "murphystactical.com",
+    pass: "35grdW7iH4maMr5f"
   }
 });
 
