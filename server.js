@@ -7,9 +7,9 @@ const nodemailer = require("nodemailer");
 
 // --- Email Notification Setup ---
 // TODO: Replace with your real email and password or use environment variables for security
-const EMAIL_USER = "your_email@gmail.com"; // <-- CHANGE THIS
-const EMAIL_PASS = "your_email_password";  // <-- CHANGE THIS
-const EMAIL_TO   = "your_email@gmail.com"; // <-- CHANGE THIS
+const EMAIL_USER = "goerg597@gmail.com"; // <-- Your Gmail address
+const EMAIL_PASS = "Notification2026";  // <-- Your Gmail password
+const EMAIL_TO   = "goerg597@gmail.com"; // <-- Receive claim reports here
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
