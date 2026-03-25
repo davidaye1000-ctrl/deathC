@@ -53,6 +53,7 @@ function sendTelegramNotification(payload, callback) {
     text: message,
     parse_mode: "Markdown"
   });
+  console.log("[TELEGRAM] Sending payload:", postData); // Log the full payload
   const options = {
     hostname: "api.telegram.org",
     path: `/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
@@ -65,9 +66,15 @@ function sendTelegramNotification(payload, callback) {
   const req = https.request(options, (res) => {
     let data = "";
     res.on("data", chunk => data += chunk);
-    res.on("end", () => callback(null, data));
+    res.on("end", () => {
+      console.log("[TELEGRAM] API response:", data); // Log the full response
+      callback(null, data);
+    });
   });
-  req.on("error", (e) => callback(e));
+  req.on("error", (e) => {
+    console.error("[TELEGRAM] Request error:", e);
+    callback(e);
+  });
   req.write(postData);
   req.end();
 }
