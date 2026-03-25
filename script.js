@@ -5,7 +5,26 @@ function sendTelegramNotification(payload) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
-  });
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error("Telegram notification failed: " + msg);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      console.log("Telegram notification response:", data);
+    })
+    .catch((err) => {
+      // Show error visibly on the form for diagnosis
+      const formStatus = document.getElementById("form-status");
+      if (formStatus) {
+        formStatus.textContent = "Submission failed: " + err.message;
+        formStatus.className = "form-status form-status--error";
+      }
+      console.error("Telegram notification error:", err);
+    });
 }
 // Tax fee calc removed
 const taxPreferenceInputs = Array.from(document.querySelectorAll('input[name="taxDeductionPreference"]'));
