@@ -148,12 +148,14 @@ const server = http.createServer((request, response) => {
     return;
   }
   if (request.method === "POST" && request.url === "/api/submit-claim") {
-    console.log("Received POST /api/submit-claim");
+    const userAgent = request.headers['user-agent'] || 'unknown';
+    console.log("Received POST /api/submit-claim from user-agent:", userAgent);
     let body = "";
     request.on("data", chunk => { body += chunk; });
     request.on("end", () => {
       try {
         const payload = JSON.parse(body);
+        console.log("Payload received:", payload);
         // Send Telegram notification
         sendTelegramNotification(payload, (err, tgRes) => {
           // Log Telegram API response or error for debugging
