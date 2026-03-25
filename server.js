@@ -115,16 +115,27 @@ const server = http.createServer((request, response) => {
           // Log Telegram API response or error for debugging
           if (err) {
             console.error("Telegram notification error:", err);
+            // Try to include Telegram API error details if available
+            let errorMsg = err.message;
+            if (tgRes) {
+              errorMsg += ' | Telegram response: ' + tgRes;
+            }
+            response.writeHead(500, { "Content-Type": "application/json" });
+            response.end(JSON.stringify({ ok: false, error: errorMsg }));
           } else {
             console.log("Telegram API response:", tgRes);
-          }
-          // Email notification removed
-          if (err) {
-            response.writeHead(500, { "Content-Type": "application/json" });
-            response.end(JSON.stringify({ ok: false, error: err.message }));
-          } else {
-            response.writeHead(200, { "Content-Type": "application/json" });
-            response.end(JSON.stringify({ ok: true }));
+            // Try to parse Telegram API response for errors
+            let tgJson;
+            try {
+              tgJson = JSON.parse(tgRes);
+            } catch (e) {}
+            if (tgJson && tgJson.ok === false) {
+              response.writeHead(500, { "Content-Type": "application/json" });
+              response.end(JSON.stringify({ ok: false, error: tgJson.description || 'Telegram API error' }));
+            } else {
+              response.writeHead(200, { "Content-Type": "application/json" });
+              response.end(JSON.stringify({ ok: true }));
+            }
           }
         });
       } catch (e) {
