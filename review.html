@@ -233,6 +233,8 @@
         place-items: center;
         z-index: 9999;
         padding: 20px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .conf-overlay[hidden] { display: none; }
 
@@ -242,8 +244,23 @@
         box-shadow: 0 10px 50px rgba(0,0,0,0.35);
         max-width: 540px;
         width: 100%;
-        overflow: hidden;
+        overflow: auto;
         animation: popIn 0.2s ease;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
+      @media (max-width: 600px) {
+        .conf-box {
+          max-width: 98vw;
+          min-width: 0;
+          border-radius: 10px;
+          padding: 0 0 12px 0;
+          max-height: 98vh;
+        }
+        .conf-overlay {
+          padding: 6px;
+        }
       }
       @keyframes popIn {
         from { transform: scale(0.9); opacity: 0; }
